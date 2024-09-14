@@ -1,0 +1,103 @@
+syntax = "proto3";
+package gfs.v2;
+option go_package = "github.com/erhahahaa/gfs-ms/common/proto";
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+// Generated according to https://cloud.google.com/apis/design/standard_methods
+service NoteService {
+  rpc ListNotes(ListNotesRequest) returns (ListNotesResponse) {
+    option (google.api.http) = {
+      get: "/v1alpha1/notes"
+    };
+  }
+
+  rpc GetNote(GetNoteRequest) returns (GetNoteResponse) {
+    option (google.api.http) = {
+      get: "/v1alpha1/{name=notes/*}"
+    };
+  }
+
+  rpc CreateNote(CreateNoteRequest) returns (CreateNoteResponse) {
+    option (google.api.http) = {
+      post: "/v1alpha1/notes"
+      body: "note"
+    };
+  }
+
+  rpc UpdateNote(UpdateNoteRequest) returns (UpdateNoteResponse) {
+    option (google.api.http) = {
+      patch: "/v1alpha1/{note.id=notes/*}"
+      body: "note"
+    };
+  }
+
+  rpc DeleteNote(DeleteNoteRequest) returns (DeleteNoteResponse) {
+    option (google.api.http) = {
+      delete: "/v1alpha1/{name=notes/*}"
+    };
+  }
+}
+
+message Note {
+  int32 id = 1;
+  string title = 2;
+  string content = 3;
+  string created_at = 4;
+  string updated_at = 5;
+}
+
+
+message ListNotesRequest {
+  string parent = 1;
+
+  int32 page_size = 2;
+
+  string page_token = 3;
+}
+
+message ListNotesResponse {
+  repeated Note notes = 1;
+
+  string next_page_token = 2;
+}
+
+message GetNoteRequest {
+  string name = 1;
+}
+
+message GetNoteResponse {
+  Note note = 1;
+}
+
+message CreateNoteRequest {
+  string parent = 1;
+
+  string note_id = 2;
+
+  Note note = 3;
+}
+
+message CreateNoteResponse {
+  Note note = 1;
+}
+
+message UpdateNoteRequest {
+  Note note = 1;
+
+  google.protobuf.FieldMask update_mask = 2;
+}
+
+message UpdateNoteResponse {
+  Note note = 1;
+}
+
+message DeleteNoteRequest {
+  string name = 1;
+}
+
+message DeleteNoteResponse {
+  google.protobuf.Empty empty = 1;
+}

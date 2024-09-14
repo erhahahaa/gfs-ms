@@ -6,8 +6,8 @@ import (
 	"net/http"
 
 	"connectrpc.com/connect"
-	gfsv2 "github.com/erhahahaa/gfs-ms/common/proto"
-	"github.com/erhahahaa/gfs-ms/common/proto/gfsv2connect"
+	gfsv2 "github.com/erhahahaa/gfs-ms/common/proto/gfs/v2"
+	"github.com/erhahahaa/gfs-ms/common/proto/gfs/v2/gfsv2connect"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 )
@@ -65,7 +65,7 @@ func main() {
 	mux.Handle(path, handler)
 
 	log.Println("Listening on :8080")
-	
+
 	http.ListenAndServe(
 		"localhost:8080",
 		h2c.NewHandler(CORS(mux), &http2.Server{}),

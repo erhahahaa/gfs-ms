@@ -1,12 +1,16 @@
 version: v2
 modules:
-  - path: proto/v2
-deps:
-  - buf.build/googleapis/googleapis
+  - path: proto
+# deps:
+#   - buf.build/googleapis/googleapis
   
 lint:
   use:
     - STANDARD
+  ignore:
+    - proto/v2/google/api/http.proto
+    - proto/v2/google/api/annotations.proto
+    - proto/v2/google/protobuf/field_mask.proto
 breaking:
   use:
     - FILE

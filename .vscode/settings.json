@@ -2,7 +2,11 @@
     "protoc": {
         "options": [
             "--proto_path=proto/v2",
+            "--proto_path=proto/google/api",
+            "--proto_path=proto/google/protobuf",
             "--proto_path=${workspaceRoot}/proto/v2",
+            "--proto_path=${workspaceRoot}/proto/google/api",
+            "--proto_path=${workspaceRoot}/proto/google/protobuf",
         ],
         "path": "/usr/bin/protoc"
     }

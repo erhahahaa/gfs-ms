@@ -1,5 +1,5 @@
 import 'package:grpc/grpc.dart';
-import 'package:xplat/gen/auth.pbgrpc.dart';
+import 'package:xplat/proto/gfs/v2/auth.pbgrpc.dart';
 
 class AuthClientCommon {
   final String url;

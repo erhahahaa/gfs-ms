@@ -16,17 +16,17 @@ plugins:
 
   # Generate Dart code
   - local: protoc-gen-dart
-    out: frontend/xplat/lib/gen
+    out: frontend/xplat/lib/proto
     opt:
       - grpc
 
   # Generate TypeScript code
   - local: protoc-gen-es
-    out: frontend/www/src/lib/gen
+    out: frontend/www/src/lib/proto
     opt: target=ts
   - local: protoc-gen-connect-es
-    out: frontend/www/src/lib/gen
+    out: frontend/www/src/lib/proto
     opt: target=ts
 
 inputs:
-  - directory: proto/v2
+  - directory: proto
