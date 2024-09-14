@@ -6,12 +6,27 @@ managed:
       value: github.com/erhahahaa/gfs-ms/common/proto
 
 plugins:
+  # Generate Go code
   - local: protoc-gen-go
     out: backend/common/proto
     opt: paths=source_relative
   - local: protoc-gen-connect-go
     out: backend/common/proto
     opt: paths=source_relative
-    
+
+  # Generate Dart code
+  - local: protoc-gen-dart
+    out: frontend/xplat/lib/gen
+    opt:
+      - grpc
+
+  # Generate TypeScript code
+  - local: protoc-gen-es
+    out: frontend/www/src/lib/gen
+    opt: target=ts
+  - local: protoc-gen-connect-es
+    out: frontend/www/src/lib/gen
+    opt: target=ts
+
 inputs:
   - directory: proto/v2
