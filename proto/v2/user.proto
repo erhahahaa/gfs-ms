@@ -1,8 +1,6 @@
 syntax = "proto3";
-
 package gfs.v2;
-
-// option go_package = "github.com/erhahahaa/gfs-ms";
+option go_package = "github.com/erhahahaa/gfs-ms/common/proto";
 
 message User {
   int32 id = 1;

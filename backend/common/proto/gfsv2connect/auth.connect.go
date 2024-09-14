@@ -8,7 +8,7 @@ import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	common "github.com/erhahahaa/gfs-ms/backend/common"
+	proto "github.com/erhahahaa/gfs-ms/common/proto"
 	http "net/http"
 	strings "strings"
 )
@@ -41,15 +41,15 @@ const (
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	authServiceServiceDescriptor        = common.File_auth_proto.Services().ByName("AuthService")
+	authServiceServiceDescriptor        = proto.File_auth_proto.Services().ByName("AuthService")
 	authServiceLoginMethodDescriptor    = authServiceServiceDescriptor.Methods().ByName("Login")
 	authServiceRegisterMethodDescriptor = authServiceServiceDescriptor.Methods().ByName("Register")
 )
 
 // AuthServiceClient is a client for the gfs.v2.AuthService service.
 type AuthServiceClient interface {
-	Login(context.Context, *connect.Request[common.LoginRequest]) (*connect.Response[common.LoginResponse], error)
-	Register(context.Context, *connect.Request[common.RegisterRequest]) (*connect.Response[common.RegisterResponse], error)
+	Login(context.Context, *connect.Request[proto.LoginRequest]) (*connect.Response[proto.LoginResponse], error)
+	Register(context.Context, *connect.Request[proto.RegisterRequest]) (*connect.Response[proto.RegisterResponse], error)
 }
 
 // NewAuthServiceClient constructs a client for the gfs.v2.AuthService service. By default, it uses
@@ -62,13 +62,13 @@ type AuthServiceClient interface {
 func NewAuthServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) AuthServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &authServiceClient{
-		login: connect.NewClient[common.LoginRequest, common.LoginResponse](
+		login: connect.NewClient[proto.LoginRequest, proto.LoginResponse](
 			httpClient,
 			baseURL+AuthServiceLoginProcedure,
 			connect.WithSchema(authServiceLoginMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
-		register: connect.NewClient[common.RegisterRequest, common.RegisterResponse](
+		register: connect.NewClient[proto.RegisterRequest, proto.RegisterResponse](
 			httpClient,
 			baseURL+AuthServiceRegisterProcedure,
 			connect.WithSchema(authServiceRegisterMethodDescriptor),
@@ -79,24 +79,24 @@ func NewAuthServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 
 // authServiceClient implements AuthServiceClient.
 type authServiceClient struct {
-	login    *connect.Client[common.LoginRequest, common.LoginResponse]
-	register *connect.Client[common.RegisterRequest, common.RegisterResponse]
+	login    *connect.Client[proto.LoginRequest, proto.LoginResponse]
+	register *connect.Client[proto.RegisterRequest, proto.RegisterResponse]
 }
 
 // Login calls gfs.v2.AuthService.Login.
-func (c *authServiceClient) Login(ctx context.Context, req *connect.Request[common.LoginRequest]) (*connect.Response[common.LoginResponse], error) {
+func (c *authServiceClient) Login(ctx context.Context, req *connect.Request[proto.LoginRequest]) (*connect.Response[proto.LoginResponse], error) {
 	return c.login.CallUnary(ctx, req)
 }
 
 // Register calls gfs.v2.AuthService.Register.
-func (c *authServiceClient) Register(ctx context.Context, req *connect.Request[common.RegisterRequest]) (*connect.Response[common.RegisterResponse], error) {
+func (c *authServiceClient) Register(ctx context.Context, req *connect.Request[proto.RegisterRequest]) (*connect.Response[proto.RegisterResponse], error) {
 	return c.register.CallUnary(ctx, req)
 }
 
 // AuthServiceHandler is an implementation of the gfs.v2.AuthService service.
 type AuthServiceHandler interface {
-	Login(context.Context, *connect.Request[common.LoginRequest]) (*connect.Response[common.LoginResponse], error)
-	Register(context.Context, *connect.Request[common.RegisterRequest]) (*connect.Response[common.RegisterResponse], error)
+	Login(context.Context, *connect.Request[proto.LoginRequest]) (*connect.Response[proto.LoginResponse], error)
+	Register(context.Context, *connect.Request[proto.RegisterRequest]) (*connect.Response[proto.RegisterResponse], error)
 }
 
 // NewAuthServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -132,10 +132,10 @@ func NewAuthServiceHandler(svc AuthServiceHandler, opts ...connect.HandlerOption
 // UnimplementedAuthServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedAuthServiceHandler struct{}
 
-func (UnimplementedAuthServiceHandler) Login(context.Context, *connect.Request[common.LoginRequest]) (*connect.Response[common.LoginResponse], error) {
+func (UnimplementedAuthServiceHandler) Login(context.Context, *connect.Request[proto.LoginRequest]) (*connect.Response[proto.LoginResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("gfs.v2.AuthService.Login is not implemented"))
 }
 
-func (UnimplementedAuthServiceHandler) Register(context.Context, *connect.Request[common.RegisterRequest]) (*connect.Response[common.RegisterResponse], error) {
+func (UnimplementedAuthServiceHandler) Register(context.Context, *connect.Request[proto.RegisterRequest]) (*connect.Response[proto.RegisterResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("gfs.v2.AuthService.Register is not implemented"))
 }
