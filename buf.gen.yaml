@@ -1,0 +1,15 @@
+version: v2
+managed:
+  enabled: true
+  override:
+    - file_option: go_package_prefix
+      value: github.com/erhahahaa/gfs-ms/backend/common
+plugins:
+  - remote: buf.build/protocolbuffers/go
+    out: backend/common/proto
+    opt: paths=source_relative
+  - remote: buf.build/connectrpc/go
+    out: backend/common/proto
+    opt: paths=source_relative
+inputs:
+  - directory: proto/v2

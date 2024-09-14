@@ -1,0 +1,9 @@
+{
+    "protoc": {
+        "options": [
+            "--proto_path=proto/v2",
+            "--proto_path=${workspaceRoot}/proto/v2",
+        ],
+        "path": "/usr/bin/protoc"
+    }
+}
